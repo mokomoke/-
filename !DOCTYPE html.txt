@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>クイズゲーム</title>
+<style>
+  body { font-family: sans-serif; text-align: center; padding: 20px; }
+  button { font-size: 18px; margin: 5px; padding: 10px 20px; }
+</style>
+</head>
+<body>
+
+<h1>クイズゲーム</h1>
+<p id="question"></p>
+<div id="choices"></div>
+<p id="result"></p>
+<p>スコア: <span id="score">0</span></p>
+
+<script>
+const quiz = [
+  { q: "日本の首都は？", c: ["東京", "大阪", "京都"], a: "東京" },
+  { q: "富士山の高さは約何m？", c: ["2776", "3376", "3776"], a: "3776" },
+  { q: "寿司で使う魚は？", c: ["サバ", "マグロ", "サンマ"], a: "マグロ" }
+];
+
+let index = 0;
+let score = 0;
+
+function showQuestion() {
+  document.getElementById("question").textContent = quiz[index].q;
+  const choicesDiv = document.getElementById("choices");
+  choicesDiv.innerHTML = "";
+  quiz[index].c.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.textContent = choice;
+    btn.onclick = () => checkAnswer(choice);
+    choicesDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(choice) {
+  if (choice === quiz[index].a) {
+    document.getElementById("result").textContent = "正解！";
+    score++;
+  } else {
+    document.getElementById("result").textContent = "不正解…";
+  }
+  document.getElementById("score").textContent = score;
+  index++;
+  if (index < quiz.length) {
+    showQuestion();
+  } else {
+    document.getElementById("question").textContent = "終了！";
+    document.getElementById("choices").innerHTML = "";
+  }
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>
